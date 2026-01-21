@@ -1,0 +1,146 @@
+# Playwright Java Maven Framework
+
+This repository contains a **Playwright test automation framework built with Java and Maven**, designed with scalability, maintainability, and CI/CD integration in mind.
+
+It is suitable for UI test automation and can be easily extended with additional features such as Page Object Model, parallel execution, reporting, and environment configuration.
+
+---
+
+## 🧱 Tech Stack
+
+- **Java 17**
+- **Playwright for Java**
+- **Maven**
+- **JUnit 5**
+- **GitHub Actions (CI)**
+
+---
+
+## 📁 Project Structure
+
+playwright-java-framework
+├── src
+│ ├── main/java
+│ │ └── framework
+│ │ ├── PlaywrightFactory.java
+│ │ └── BaseTest.java
+│ └── test/java
+│ └── tests
+│ └── SmokeTest.java
+├── .github/workflows
+│ └── playwright-ci.yml
+├── pom.xml
+├── .gitignore
+└── README.md
+
+yaml
+Copy code
+
+---
+
+## ⚙️ Prerequisites
+
+Make sure the following are installed on your machine:
+
+- Java 17+
+- Maven 3.8+
+- Git
+
+Verify installation:
+
+```bash
+java -version
+mvn -version
+git --version
+🚀 Getting Started
+1️⃣ Clone the repository
+bash
+Copy code
+git clone https://github.com/fabiocaso/playwright-java-framework.git
+cd playwright-java-framework
+2️⃣ Install Playwright browsers
+Run this command once:
+
+bash
+Copy code
+mvn exec:java -Dexec.mainClass=com.microsoft.playwright.CLI -Dexec.args="install"
+This installs:
+
+Chromium
+
+Firefox
+
+WebKit
+
+3️⃣ Run tests locally
+bash
+Copy code
+mvn clean test
+Tests will run in headless mode by default.
+
+🧪 Test Design
+PlaywrightFactory
+Centralized browser lifecycle management
+
+BaseTest
+Handles setup and teardown for each test
+
+Tests extend BaseTest for clean test isolation
+
+🔄 Continuous Integration (CI)
+This project includes GitHub Actions CI.
+
+The pipeline:
+
+Triggers on push and pull_request
+
+Sets up Java 17
+
+Installs Playwright browsers
+
+Runs all tests headlessly
+
+CI config file:
+
+bash
+Copy code
+.github/workflows/playwright-ci.yml
+📈 Future Enhancements
+Planned or easily extendable features:
+
+Page Object Model (POM)
+
+Parallel execution
+
+Screenshot & video capture on failure
+
+Allure reporting
+
+Environment-based configuration
+
+API testing with Playwright
+
+Docker support
+
+👤 Author
+Fabio Caso
+
+Senior QA / SDET
+Playwright • Java • Automation • CI/CD
+
+📄 License
+This project is for educational and demonstration purposes.
+
+yaml
+Copy code
+
+---
+
+## ✅ Next steps
+
+After adding the README:
+
+```bash
+git add README.md
+git commit -m "Add project README"
+git push

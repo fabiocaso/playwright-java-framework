@@ -1,6 +1,7 @@
-package framework;
+package framework.factory;
 
 import com.microsoft.playwright.*;
+import framework.config.TestConfig;
 
 public class PlaywrightFactory {
 
@@ -8,9 +9,12 @@ public class PlaywrightFactory {
     private static Browser browser;
 
     public static Browser initBrowser() {
+        TestConfig config = new TestConfig();
+        boolean headless = config.getBoolean("headless", true);
+
         playwright = Playwright.create();
         browser = playwright.chromium().launch(
-                new BrowserType.LaunchOptions().setHeadless(true)
+                new BrowserType.LaunchOptions().setHeadless(headless)
         );
         return browser;
     }
