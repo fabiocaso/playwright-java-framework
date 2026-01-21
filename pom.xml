@@ -55,12 +55,49 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.3.0</version>
             </plugin>
+
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>3.1.0</version>
             </plugin>
+
+            <!-- Ensure surefire HTML report is generated into the site directory during the verify phase -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-report-plugin</artifactId>
+                <version>3.5.4</version>
+                <executions>
+                    <execution>
+                        <id>generate-surefire-html</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>report-only</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.reporting.outputDirectory}</outputDirectory>
+                            <alwaysGenerateSurefireReport>true</alwaysGenerateSurefireReport>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
+
+    <!-- Reporting: ensure surefire report HTML goes to the site directory (target/site) -->
+    <reporting>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-report-plugin</artifactId>
+                <version>3.5.4</version>
+                <configuration>
+                    <!-- use the standard site output directory so reports end up in target/site -->
+                    <outputDirectory>${project.reporting.outputDirectory}</outputDirectory>
+                    <alwaysGenerateSurefireReport>true</alwaysGenerateSurefireReport>
+                </configuration>
+            </plugin>
+        </plugins>
+    </reporting>
 
 </project>
