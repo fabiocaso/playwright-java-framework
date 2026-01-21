@@ -30,20 +30,20 @@ jobs:
       - name: Run tests
         run: mvn -B -Denv=dev -Dheadless=true test
 
-      - name: Generate HTML test report
-        run: mvn -B surefire-report:report
+      - name: Generate site and HTML test report
+        run: mvn -B -Denv=dev -Dheadless=true site
 
       - name: Upload JUnit XML reports
         uses: actions/upload-artifact@v4
         with:
           name: junit-reports
-          path: target/surefire-reports/*.xml
+          path: target/surefire-reports/**
 
-      - name: Upload HTML report
+      - name: Upload site (HTML) report
         uses: actions/upload-artifact@v4
         with:
           name: html-report
-          path: target/site/surefire-report.html
+          path: target/site/**
 
       - name: Publish test results to GitHub checks
         if: always()
