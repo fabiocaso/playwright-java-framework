@@ -10,7 +10,7 @@ public class PlaywrightFactory {
 
     public static Browser initBrowser() {
         TestConfig config = new TestConfig();
-        boolean headless = config.getBoolean("headless", true);
+        boolean headless = config.getBoolean("headless", false);
 
         playwright = Playwright.create();
         browser = playwright.chromium().launch(

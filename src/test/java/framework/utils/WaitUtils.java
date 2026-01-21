@@ -2,6 +2,7 @@ package framework.utils;
 
 import com.microsoft.playwright.Locator;
 import com.microsoft.playwright.Page;
+import com.microsoft.playwright.PlaywrightException;
 import com.microsoft.playwright.options.WaitForSelectorState;
 
 import java.util.function.BooleanSupplier;
@@ -86,6 +87,37 @@ public final class WaitUtils {
                 return false;
             }
         }, timeoutMs, DEFAULT_POLL_INTERVAL_MS);
+    }
+
+    /**
+     * Waits until the page URL contains the given fragment or the timeout is reached.
+     * Implementation uses Playwright's page.waitForURL with a glob pattern for reliability.
+     */
+    public static void waitForUrlContains(Page page, String fragment) {
+        waitForUrlContains(page, fragment, DEFAULT_TIMEOUT_MS);
+    }
+
+    public static void waitForUrlContains(Page page, String fragment, int timeoutMs) {
+        try {
+            // use a glob pattern so we match anywhere in the URL
+            String pattern = "**" + fragment + "**";
+            page.waitForURL(pattern, new Page.WaitForURLOptions().setTimeout((double) timeoutMs));
+        } catch (PlaywrightException e) {
+            throw new RuntimeException("Timeout waiting for URL containing '" + fragment + "'", e);
+        }
+    }
+
+    /**
+     * Non-throwing variant: returns true if the URL matched within the timeout, false otherwise.
+     */
+    public static boolean tryWaitForUrlContains(Page page, String fragment, int timeoutMs) {
+        try {
+            String pattern = "**" + fragment + "**";
+            page.waitForURL(pattern, new Page.WaitForURLOptions().setTimeout((double) timeoutMs));
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     // -- Generic polling helper --

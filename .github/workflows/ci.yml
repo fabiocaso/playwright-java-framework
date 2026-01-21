@@ -31,21 +31,25 @@ jobs:
         run: mvn -B -Denv=dev -Dheadless=true test
 
       - name: Generate site and HTML test report
+        if: always()
         run: mvn -B -Denv=dev -Dheadless=true site
 
       - name: Upload JUnit XML reports
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: junit-reports
           path: target/surefire-reports/**
 
       - name: Upload site (HTML) report
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: html-report
           path: target/site/**
 
       - name: Upload screenshots on failure
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: screenshots
