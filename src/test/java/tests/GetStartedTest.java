@@ -1,7 +1,5 @@
 package tests;
 
-import com.microsoft.playwright.Page;
-import com.microsoft.playwright.Locator;
 import framework.base.BaseTest;
 import framework.utils.WaitUtils;
 import org.junit.jupiter.api.Test;

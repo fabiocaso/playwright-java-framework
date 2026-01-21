@@ -27,7 +27,7 @@ public final class WaitUtils {
     public static void waitForVisible(Page page, String selector, int timeoutMs) {
         page.waitForSelector(selector, new Page.WaitForSelectorOptions()
                 .setState(WaitForSelectorState.VISIBLE)
-                .setTimeout((double) timeoutMs));
+                .setTimeout(timeoutMs));
     }
 
     public static void waitForHidden(Page page, String selector) {
@@ -37,7 +37,7 @@ public final class WaitUtils {
     public static void waitForHidden(Page page, String selector, int timeoutMs) {
         page.waitForSelector(selector, new Page.WaitForSelectorOptions()
                 .setState(WaitForSelectorState.HIDDEN)
-                .setTimeout((double) timeoutMs));
+                .setTimeout(timeoutMs));
     }
 
     // -- Locator based waits --
