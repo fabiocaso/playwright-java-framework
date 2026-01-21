@@ -64,6 +64,27 @@ Running tests
 - Use the convenience script `run-tests.ps1` (PowerShell) to run tests per environment and toggle headless:
   - PowerShell: .\run-tests.ps1 -Env qa -Headless false -Test "tests.SmokeTest"
   - To run all tests: .\run-tests.ps1 -Env qa -Headless true -All
+  - Add `-Report` to generate Surefire HTML report and print artifact locations:
+    - PowerShell: .\run-tests.ps1 -Env qa -Headless true -All -Report
+
+CI & reports
+------------
+A GitHub Actions workflow is included at `.github/workflows/ci.yml` which:
+- runs tests on pushes and PRs to `main`
+- generates the Surefire HTML report (`target/site/surefire-report.html`)
+- uploads JUnit XML (`target/surefire-reports/*.xml`) and the HTML report as workflow artifacts
+- publishes test results to GitHub checks
+
+Locally you can generate the same report after running tests:
+```powershell
+# run tests (example)
+.\run-tests.ps1 -Env dev -Headless true -All
+# generate HTML report
+.\run-tests.ps1 -Env dev -Headless true -All -Report
+# report locations:
+# - target/site/surefire-report.html
+# - target/surefire-reports/*.xml
+```
 
 Utilities
 ---------
@@ -80,4 +101,5 @@ Contact / Next steps
 ---------------------
 If you'd like, I can:
 - Add additional typed helpers to `TestConfig` (e.g., getLong/getDuration)
-- Add a small PowerShell helper script `run-tests.ps1` (already added) to simplify running tests for specific environments.
+- Add more CI artifact publishing (e.g., store artifact in release), or
+- Add more run scripts for Linux/macOS shells.

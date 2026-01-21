@@ -1,0 +1,54 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Cache Maven repository
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2-
+
+      - name: Run tests
+        run: mvn -B -Denv=dev -Dheadless=true test
+
+      - name: Generate HTML test report
+        run: mvn -B surefire-report:report
+
+      - name: Upload JUnit XML reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: junit-reports
+          path: target/surefire-reports/*.xml
+
+      - name: Upload HTML report
+        uses: actions/upload-artifact@v4
+        with:
+          name: html-report
+          path: target/site/surefire-report.html
+
+      - name: Publish test results to GitHub checks
+        if: always()
+        uses: dorny/test-reporter@v1
+        with:
+          name: junit
+          path: target/surefire-reports/*.xml
+          reporter: junit
