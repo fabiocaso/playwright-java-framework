@@ -3,9 +3,12 @@ package framework.base;
 import com.microsoft.playwright.*;
 import framework.config.TestConfig;
 import framework.factory.PlaywrightFactory;
+import framework.extensions.ScreenshotOnFailureExtension;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.extension.ExtendWith;
 
+@ExtendWith(ScreenshotOnFailureExtension.class)
 public class BaseTest {
 
     protected Browser browser;
@@ -35,7 +38,9 @@ public class BaseTest {
 
     @AfterEach
     void tearDown() {
-        context.close();
+        if (context != null) {
+            try { context.close(); } catch (Exception ignored) {}
+        }
         PlaywrightFactory.tearDown();
     }
 
@@ -51,5 +56,10 @@ public class BaseTest {
      */
     protected String getConfigForEnv(String key) {
         return config.getForEnv(key);
+    }
+
+    // Public accessor used by extensions to capture screenshots
+    public Page getPage() {
+        return page;
     }
 }
